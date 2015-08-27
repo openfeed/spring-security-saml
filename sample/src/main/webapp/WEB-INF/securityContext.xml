@@ -3,8 +3,8 @@
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 
     <!-- Enable auto-wiring -->
     <context:annotation-config/>
@@ -139,7 +139,7 @@
         <constructor-arg>
             <list>
                 <!-- Example of classpath metadata with Extended Metadata -->
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                <!-- <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
                     <constructor-arg>
                         <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
                             <constructor-arg>
@@ -157,7 +157,7 @@
                         <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
                         </bean>
                     </constructor-arg>
-                </bean>
+                </bean> -->
                 <!-- Example of HTTP metadata without Extended Metadata -->
                 <bean class="org.opensaml.saml2.metadata.provider.HTTPMetadataProvider">
                     <!-- URL containing the metadata -->
@@ -171,14 +171,15 @@
                     <property name="parserPool" ref="parserPool"/>
                 </bean>
                 <!-- Example of file system metadata without Extended Metadata -->
-                <!--
+                
                 <bean class="org.opensaml.saml2.metadata.provider.FilesystemMetadataProvider">
                     <constructor-arg>
-                        <value type="java.io.File">/usr/local/metadata/idp.xml</value>
+                        <!-- <value type="java.io.File">/usr/local/metadata/idp.xml</value> -->
+                        <value type="java.io.File">C:/metadata/idp.xml</value>
                     </constructor-arg>
                     <property name="parserPool" ref="parserPool"/>
                 </bean>
-                -->
+               
             </list>
         </constructor-arg>
         <!-- OPTIONAL used when one of the metadata files contains information about this service provider -->
