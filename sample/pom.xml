@@ -103,6 +103,11 @@
       </plugin>
     </plugins>
   </build>  
+	<properties>
+		<spring.core>4.1.4.RELEASE</spring.core>	<!-- 3.1.2.RELEASE -->
+		<spring.security>3.2.5.RELEASE</spring.security> <!-- 3.1.2.RELEASE -->
+		<spring.saml>1.0.1.RELEASE</spring.saml>	<!-- 1.0.0.RELEASE -->
+	</properties>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -119,7 +124,7 @@
     <dependency>
       <groupId>org.springframework.security.extensions</groupId>
       <artifactId>spring-security-saml2-core</artifactId>
-      <version>1.0.0.RELEASE</version>
+      <version>${spring.saml}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework.security</groupId>
@@ -139,13 +144,13 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${spring.security}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${spring.security}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
@@ -157,37 +162,37 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>4.1.4.RELEASE</version>
+      <version>${spring.core}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
-      <version>4.1.4.RELEASE</version>
+      <version>${spring.core}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>4.1.4.RELEASE</version>
+      <version>${spring.core}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
-      <version>4.1.4.RELEASE</version>
+      <version>${spring.core}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-      <version>4.1.4.RELEASE</version>
+      <version>${spring.core}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.1.4.RELEASE</version>
+      <version>${spring.core}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
