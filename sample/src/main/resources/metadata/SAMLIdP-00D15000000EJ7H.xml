@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://openfeed-dev-ed.my.salesforce.com" validUntil="2025-12-07T23:20:55.640Z">
+   <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:KeyDescriptor use="signing">
+         <ds:KeyInfo>
+            <ds:X509Data>
+               <ds:X509Certificate>MIIErDCCA5SgAwIBAgIOAVEYhMihAAAAADhYwfkwDQYJKoZIhvcNAQELBQAwgZAxKDAmBgNVBAMMH1NlbGZTaWduZWRDZXJ0XzE4Tm92MjAxNV8wMjU1MzMxGDAWBgNVBAsMDzAwRDE1MDAwMDAwRUo3SDEXMBUGA1UECgwOU2FsZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xCzAJBgNVBAgMAkNBMQwwCgYDVQQGEwNVU0EwHhcNMTUxMTE4MDI1NTM0WhcNMTcxMTE4MDAwMDAwWjCBkDEoMCYGA1UEAwwfU2VsZlNpZ25lZENlcnRfMThOb3YyMDE1XzAyNTUzMzEYMBYGA1UECwwPMDBEMTUwMDAwMDBFSjdIMRcwFQYDVQQKDA5TYWxlc2ZvcmNlLmNvbTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzELMAkGA1UECAwCQ0ExDDAKBgNVBAYTA1VTQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ6frBPdnJqGUbHJmbGRup6KeJSQihXE3l+syfqyNknhMbX7y8Jdx/1FLoFfRS4pbPvqMAoL+DnQcmLWXnCy12UD0A1JcYDjbBXMezSTvCg03c6JLOwPsE/GcFyEoPUVHyiOHBsmiTTy9h5/oVW4vzPv1OjLLYiEErJ752tPacxWPfPyHQpCU6UnGwjLyim2EzgWnUvYUlrgjRv/gSE4WkK+NXRTQ9dzKb85GaFxBmrW+f95MP9KyX6IVfF2Yr50cWQxjLacMM8kyvpODn6snMGBEsnlVM2LlMc8F4zPCzNBw2KerGydOp4eECK3C6Y90mjgE0YS037HXiMOlWUEZLUCAwEAAaOCAQAwgf0wHQYDVR0OBBYEFAtYLAZHxPhzKbQQsv8tzoZzVBPhMA8GA1UdEwEB/wQFMAMBAf8wgcoGA1UdIwSBwjCBv4AUC1gsBkfE+HMptBCy/y3OhnNUE+GhgZakgZMwgZAxKDAmBgNVBAMMH1NlbGZTaWduZWRDZXJ0XzE4Tm92MjAxNV8wMjU1MzMxGDAWBgNVBAsMDzAwRDE1MDAwMDAwRUo3SDEXMBUGA1UECgwOU2FsZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xCzAJBgNVBAgMAkNBMQwwCgYDVQQGEwNVU0GCDgFRGITIoQAAAAA4WMH5MA0GCSqGSIb3DQEBCwUAA4IBAQCdvmjjJeJXckp66n7t37kzhyvagJesvbd8JlAb/FfYHqel7ZOZQzPeXG1xxIZTa1P2Q1T8xgV6VERkNrPi6BYMlcZVXF6PxQ936l78QWkvG4gbHxr5LsE35TyUVAxrx3DA5q11txfi8f3GAUrDlM7QbYJPjUnqwrxz+PZdS3/3/1SNyZbltS2CH8Jlj1DM/2ncXm0y7QobONKxBCPN4o3A+np55EqLo2DrovhjjjfWqj4/iN5ndyaHc/TwJSi0dv326YLWT7t+F1yQtNr/U6fg63AsFatukwhYYJq9jTlyp0VKbKK5UOgTZ0eAjTi/CfjPqTXUvHghCWmuLJB6Npbd</ds:X509Certificate>
+            </ds:X509Data>
+         </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://openfeed-dev-ed.my.salesforce.com/idp/endpoint/HttpPost"/>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://openfeed-dev-ed.my.salesforce.com/idp/endpoint/HttpRedirect"/>
+   </md:IDPSSODescriptor>
+</md:EntityDescriptor>
