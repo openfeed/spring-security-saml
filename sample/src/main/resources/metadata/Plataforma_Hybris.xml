@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EntityDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://aaj0709.my.centrify.com/21a58c69-50ef-4ca9-8d43-3e01f07c1d91">
+	<IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+		<KeyDescriptor>
+			<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+				<X509Data>
+					<X509Certificate>MIIDkTCCAnmgAwIBAgIQTw22SQriTLRn/aMswSV6mDANBgkqhkiG9w0BAQsFADAkMSIwIAYDVQQDDBlDZW50cmlmeSBDdXN0b21lciBBQUowNzA5MB4XDTE3MDcxMzE4MDUyOFoXDTM5MDEwMTAwMDAwMFowRDFCMEAGA1UEAww5Q2VudHJpZnkgQ3VzdG9tZXIgQUFKMDcwOSBBcHBsaWNhdGlvbiBTaWduaW5nIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhuGadpjGK2JMlE72z5DczhjG+iLZriV87HS1pT/+IYULrx3bweaDGL/mRXkKjQ8XGyYVWEZzqWyT6A/dM1rhAeigLaOSTAxOCLR1cKwHVsI5E6Gxp/DfWmMoO0o4qZQicjLdFoVq1idtXW3xWBMRWhlVuqcWT5jN559MUy9eRhHkQUNawuGwpxMUC5r3ezhstsW1HkqnMnRR6LTA+TLIbn+afyWHjhBPrAyV9+jXaK7gSIbYV9Q5g9he2I2QbVj5GuRewNYMsfTnqhzfQ8iixKx2SCPTJIMI5SleELeaaW5hzaO+iYj4vIEiNGbGsfZf5FC5ilDjXb19KvGbWLIOQQIDAQABo4GeMIGbMBMGCisGAQQBgqZwAQkEBQwDMS4wMBcGCisGAQQBgqZwAQMECQwHQUFKMDcwOTAfBgNVHSMEGDAWgBSgdquhjhtnm5rz0g7t2QQEkegeNTAdBgNVHQ4EFgQUrXLTP8JIxzmMEZXOcSO2Rln4PmAwDgYDVR0PAQH/BAQDAgWgMBsGCisGAQQBgqZwAQQEDQwLQXBwbGljYXRpb24wDQYJKoZIhvcNAQELBQADggEBAIeAXLXamBU6ERYL1OhD1qtV3p0NxR7q+Ro+7hEe+LaHemN7Swng+DEtILf8NLlxhAKc3xkPsiyZej0hv5W5CPc6nc9M0W1jLwPMJhwP7Zg7hprQV6OKLEHinEaAlTJtrJuFKunvuG0ABE3iSxjW/ehuSW+hFyvBeUrn7hFjy/RegLJ2kDYAj9lR1tH08hbxF1xyoSKKJtjwsVLVnDR9WnnfbICtRjb5uiQnm2MxEHSGAa6R/ghg8QqfuOje12Klm0MgCZHp7ruoPeP6khjU3cMfEsVoG/pifO5GCcQJW8aOoLQrhDHIuSWtGPYvwZovqapbf67gQZeydTvzePQ3Qtc=</X509Certificate>
+				</X509Data>
+			</KeyInfo>
+		</KeyDescriptor>
+		<SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://aaj0709.my.centrify.com/applogout"/>
+		<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:entity</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
+		<NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+		<SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://aaj0709.my.centrify.com/applogin/appKey/21a58c69-50ef-4ca9-8d43-3e01f07c1d91/customerId/AAJ0709"/>
+		<SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://aaj0709.my.centrify.com/applogin/appKey/21a58c69-50ef-4ca9-8d43-3e01f07c1d91/customerId/AAJ0709"/>
+		<Attribute xmlns="urn:oasis:names:tc:SAML:2.0:assertion" Name="Email Address" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+	</IDPSSODescriptor>
+</EntityDescriptor>

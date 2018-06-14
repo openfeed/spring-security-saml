@@ -2,11 +2,11 @@
 <div id="header">
     <div id="top">
         <div class="left" id="logo">
-            <a href="<c:url value="/"/>"><img src="<c:url value="/images/logo.png"/>" alt="" /></a>
+            <a href="<c:url value="/"/>"><img src="<c:url value="/images/dd-logo.png"/>" alt="" /></a>
         </div>
         <div class="left navigation" id="main-nav">
             <ul class="tabbed">
-                <li class="current-tab"><a href="<c:url value="/"/>">Spring SAML Sample application</a></li>
+                <li class="current-tab"><a href="<c:url value="/"/>">Deloitte Digital SSO Dashboard</a></li>
             </ul>
             <div class="clearer">&nbsp;</div>
         </div>

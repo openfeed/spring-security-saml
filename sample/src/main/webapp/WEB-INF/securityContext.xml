@@ -3,8 +3,8 @@
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
-              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
     <!-- Enable auto-wiring -->
     <context:annotation-config/>
@@ -86,7 +86,7 @@
     <bean id="samlLogger" class="org.springframework.security.saml.log.SAMLDefaultLogger"/>
 
     <!-- Central storage of cryptographic keys -->
-    <bean id="keyManager" class="org.springframework.security.saml.key.JKSKeyManager">
+    <!--<bean id="keyManager" class="org.springframework.security.saml.key.JKSKeyManager">
         <constructor-arg value="classpath:security/samlKeystore.jks"/>
         <constructor-arg type="java.lang.String" value="nalle123"/>
         <constructor-arg>
@@ -95,6 +95,24 @@
             </map>
         </constructor-arg>
         <constructor-arg type="java.lang.String" value="apollo"/>
+    </bean>-->
+
+    <bean id="keyManager" class="org.springframework.security.saml.key.JKSKeyManager">
+        <!--<constructor-arg value="classpath:security/samlKeystore.jks"/>-->
+        <constructor-arg value="classpath:security/samlPaaSNutresaKeystore.jks"/>
+        <!--<constructor-arg type="java.lang.String" value="nalle123"/>-->
+        <constructor-arg type="java.lang.String" value="keystore_password"/>
+        <constructor-arg>
+            <map>
+                <entry key="apollo" value="nalle123"/>
+                <entry key="samlkey" value="keystore_password"/>
+                <entry key="samlkey1" value="keystore_password"/>
+                <entry key="samlkey2" value="keystore_password"/>
+                <entry key="com.serviciosnutresa.dev" value=""/>
+            </map>
+        </constructor-arg>
+        <!--<constructor-arg type="java.lang.String" value="apollo"/>-->
+        <constructor-arg type="java.lang.String" value="com.serviciosnutresa.dev"/>
     </bean>
 
     <!-- Entry point to initialize authentication, default values taken from properties file -->
@@ -115,18 +133,11 @@
     <bean id="metadataGeneratorFilter" class="org.springframework.security.saml.metadata.MetadataGeneratorFilter">
         <constructor-arg>
             <bean class="org.springframework.security.saml.metadata.MetadataGenerator">
-                <!--<property name="entityId" value="urn:development:openfeed4:americas"/>-->
-                <!--<property name="extendedMetadata">-->
-                    <!--<bean class="org.springframework.security.saml.metadata.ExtendedMetadata">-->
-                        <!--<property name="idpDiscoveryEnabled" value="true"/>-->
-                	    <!--property name="idpDiscoveryResponseURL"  value="http://spring.idpee.com:61080/service/" /-->
-			            <!-- <property name="entityId" value="replaceWithUniqueIdentifier"/> -->
-                	    <!-- <property name="entityId" value="urn:development:openfeed4:americas"/> -->
-                        <!--<property name="signMetadata" value="false"/>-->
-                        <!--<property name="alias" value="sp1"/>-->
-			            <!--<property name="requestSigned" value="false"/>-->
-                    <!--</bean>-->
-                <!--</property>-->
+                <property name="extendedMetadata">
+                    <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                        <property name="idpDiscoveryEnabled" value="true"/>
+                    </bean>
+                </property>
             </bean>
         </constructor-arg>
     </bean>
@@ -135,22 +146,179 @@
     <bean id="metadataDisplayFilter" class="org.springframework.security.saml.metadata.MetadataDisplayFilter"/>
 
     <!-- Configure HTTP Client to accept certificates from the keystore for HTTPS verification -->
-    <!--
+
     <bean class="org.springframework.security.saml.trust.httpclient.TLSProtocolConfigurer">
-        <property name="sslHostnameVerification" value="default"/>
+        <!--<property name="sslHostnameVerification" value="default"/>-->
+        <property name="sslHostnameVerification" value="allowAll"/>
     </bean>
-    -->
+
+
 
     <!-- IDP Metadata configuration - paths to metadata of IDPs in circle of trust is here -->
     <bean id="metadata" class="org.springframework.security.saml.metadata.CachingMetadataManager">
         <constructor-arg>
             <list>
-               
                 <!-- Example of classpath metadata with Extended Metadata -->
 
+                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                    <constructor-arg>
+                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
+                            <constructor-arg>
+                                <bean class="java.util.Timer"/>
+                            </constructor-arg>
+                            <constructor-arg>
+                                <bean class="org.opensaml.util.resource.ClasspathResource">
+                                    <constructor-arg value="/metadata/devnutresahybsp2_sp.xml"/>
+                                </bean>
+                            </constructor-arg>
+                            <property name="parserPool" ref="parserPool"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                            <property name="local" value="true"/>
+                            <property name="alias" value="sp2"/>
+                            <property name="securityProfile" value="metaiop"/>
+                            <property name="sslSecurityProfile" value="pkix"/>
+                            <property name="sslHostnameVerification" value="default"/>
+                            <property name="signMetadata" value="false"/>
+                            <property name="signingKey" value="com.serviciosnutresa.dev"/>
+                            <property name="encryptionKey" value="com.serviciosnutresa.dev"/>
+                            <property name="requireArtifactResolveSigned" value="false"/>
+                            <property name="requireLogoutRequestSigned" value="false"/>
+                            <property name="requireLogoutResponseSigned" value="false"/>
+                            <property name="idpDiscoveryEnabled" value="true"/>
+                            <property name="idpDiscoveryURL" value="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/discovery/alias/sp2"/>
+                            <property name="idpDiscoveryResponseURL" value="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/login/alias/sp2?disco=true"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
 
+                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                    <constructor-arg>
+                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
+                            <constructor-arg>
+                                <bean class="java.util.Timer"/>
+                            </constructor-arg>
+                            <constructor-arg>
+                                <bean class="org.opensaml.util.resource.ClasspathResource">
+                                    <constructor-arg value="/metadata/devnutresahybsp3_sp.xml"/>
+                                </bean>
+                            </constructor-arg>
+                            <property name="parserPool" ref="parserPool"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                            <property name="local" value="true"/>
+                            <property name="alias" value="sp3"/>
+                            <property name="securityProfile" value="metaiop"/>
+                            <property name="sslSecurityProfile" value="pkix"/>
+                            <property name="sslHostnameVerification" value="default"/>
+                            <property name="signMetadata" value="false"/>
+                            <property name="signingKey" value="com.serviciosnutresa.dev"/>
+                            <property name="encryptionKey" value="com.serviciosnutresa.dev"/>
+                            <property name="requireArtifactResolveSigned" value="false"/>
+                            <property name="requireLogoutRequestSigned" value="false"/>
+                            <property name="requireLogoutResponseSigned" value="false"/>
+                            <property name="idpDiscoveryEnabled" value="true"/>
+                            <property name="idpDiscoveryURL" value="https://admin-dev.serviciosnutresa.com:443/samlsinglesignon/saml/discovery/alias/sp3"/>
+                            <property name="idpDiscoveryResponseURL" value="https://admin-dev.serviciosnutresa.com:443/samlsinglesignon/saml/login/alias/sp3?disco=true"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
 
-                
+                <!--<bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                    <constructor-arg>
+                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
+                            <constructor-arg>
+                                <bean class="java.util.Timer"/>
+                            </constructor-arg>
+                            <constructor-arg>
+                                <bean class="org.opensaml.util.resource.ClasspathResource">
+                                    <constructor-arg value="/metadata/devnutresahybsp1_sp.xml"/>
+                                </bean>
+                            </constructor-arg>
+                            <property name="parserPool" ref="parserPool"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                            <property name="local" value="true"/>
+                            <property name="securityProfile" value="metaiop"/>
+                            <property name="sslSecurityProfile" value="pkix"/>
+                            <property name="sslHostnameVerification" value="default"/>
+                            <property name="signMetadata" value="false"/>
+                            <property name="signingKey" value="com.serviciosnutresa.dev"/>
+                            <property name="encryptionKey" value="com.serviciosnutresa.dev"/>
+                            <property name="requireArtifactResolveSigned" value="false"/>
+                            <property name="requireLogoutRequestSigned" value="false"/>
+                            <property name="requireLogoutResponseSigned" value="false"/>
+                            <property name="idpDiscoveryEnabled" value="true"/>
+                            <property name="idpDiscoveryURL" value="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/discovery"/>
+                            <property name="idpDiscoveryResponseURL" value="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/login?disco=true"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>-->
+
+                <!--<bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                    <constructor-arg>
+                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
+                            <constructor-arg>
+                                <bean class="java.util.Timer"/>
+                            </constructor-arg>
+                            <constructor-arg>
+                                <bean class="org.opensaml.util.resource.ClasspathResource">
+                                    <constructor-arg value="/metadata/meta.xml"/>
+                                </bean>
+                            </constructor-arg>
+                            <property name="parserPool" ref="parserPool"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                        </bean>
+                    </constructor-arg>
+                </bean>-->
+                <!--<bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                    <constructor-arg>
+                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
+                            <constructor-arg>
+                                <bean class="java.util.Timer"/>
+                            </constructor-arg>
+                            <constructor-arg>
+                                <bean class="org.opensaml.util.resource.ClasspathResource">
+                                    <constructor-arg value="/metadata/idp.xml"/>
+                                </bean>
+                            </constructor-arg>
+                            <property name="parserPool" ref="parserPool"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                        </bean>
+                    </constructor-arg>
+                </bean>-->
+                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                    <constructor-arg>
+                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
+                            <constructor-arg>
+                                <bean class="java.util.Timer"/>
+                            </constructor-arg>
+                            <constructor-arg>
+                                <bean class="org.opensaml.util.resource.ClasspathResource">
+                                    <!--<constructor-arg value="/metadata/Plataforma_Hybris.xml"/>-->
+                                    <constructor-arg value="/metadata/meta.xml"/>
+                                </bean>
+                            </constructor-arg>
+                            <property name="parserPool" ref="parserPool"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                        </bean>
+                    </constructor-arg>
+                </bean>
                 <!-- Example of HTTP metadata without Extended Metadata -->
                 <!--<bean class="org.opensaml.saml2.metadata.provider.HTTPMetadataProvider">
                     &lt;!&ndash; URL containing the metadata &ndash;&gt;
@@ -163,11 +331,10 @@
                     </constructor-arg>
                     <property name="parserPool" ref="parserPool"/>
                 </bean>-->
-
                 <!--<bean class="org.opensaml.saml2.metadata.provider.HTTPMetadataProvider">
                     &lt;!&ndash; URL containing the metadata &ndash;&gt;
                     <constructor-arg>
-                        <value type="java.lang.String">https://openfeed-dev-ed.my.salesforce.com/.well-known/samlidp.xml</value>
+                        <value type="java.lang.String">http://openfeed.idpee.com/meta.xml</value>
                     </constructor-arg>
                     &lt;!&ndash; Timeout for metadata loading in ms &ndash;&gt;
                     <constructor-arg>
@@ -175,197 +342,15 @@
                     </constructor-arg>
                     <property name="parserPool" ref="parserPool"/>
                 </bean>-->
-
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+                <!-- Example of file system metadata without Extended Metadata -->
+                <!--
+                <bean class="org.opensaml.saml2.metadata.provider.FilesystemMetadataProvider">
                     <constructor-arg>
-                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-                            <constructor-arg>
-                                <bean class="java.util.Timer"/>
-                            </constructor-arg>
-                            <constructor-arg>
-                                <bean class="org.opensaml.util.resource.ClasspathResource">
-                                    <constructor-arg value="/metadata/urndevelopmentopenfeed4americas_sp.xml"/>
-                                </bean>
-                            </constructor-arg>
-                            <property name="parserPool" ref="parserPool"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                          <property name="local" value="true"/>
-                          <property name="idpDiscoveryEnabled" value="true"/>
-                          <property name="signMetadata" value="false"/>
-                          <property name="alias" value="sp1"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-                    <constructor-arg>
-                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-                            <constructor-arg>
-                                <bean class="java.util.Timer"/>
-                            </constructor-arg>
-                            <constructor-arg>
-                                <bean class="org.opensaml.util.resource.ClasspathResource">
-                                    <constructor-arg value="/metadata/urndevelopmentsfdc2americas_sp.xml"/>
-                                </bean>
-                            </constructor-arg>
-                            <property name="parserPool" ref="parserPool"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                          <property name="local" value="true"/>
-                          <property name="idpDiscoveryEnabled" value="true"/>
-                          <property name="signMetadata" value="false"/>
-                          <property name="alias" value="sp2"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-                    <constructor-arg>
-                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-                            <constructor-arg>
-                                <bean class="java.util.Timer"/>
-                            </constructor-arg>
-                            <constructor-arg>
-                                <bean class="org.opensaml.util.resource.ClasspathResource">
-                                    <constructor-arg value="/metadata/urndevelopmentopenfeed5americas_sp.xml"/>
-                                </bean>
-                            </constructor-arg>
-                            <property name="parserPool" ref="parserPool"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                            <property name="local" value="true"/>
-                            <property name="signMetadata" value="false"/>
-                            <property name="idpDiscoveryEnabled" value="true"/>
-                            <property name="alias" value="sp3"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-
-                <!-- Example of classpath metadata with Extended Metadata -->
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-                    <constructor-arg>
-                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-                            <constructor-arg>
-                                <bean class="java.util.Timer"/>
-                            </constructor-arg>
-                            <constructor-arg>
-                                <bean class="org.opensaml.util.resource.ClasspathResource">
-                                    <constructor-arg value="/metadata/ssocircle-idp.xml"/>
-                                </bean>
-                            </constructor-arg>
-                            <property name="parserPool" ref="parserPool"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                            <property name="local" value="true"/>
-                            <!--<property name="alias" value="sp1"/>-->
-                            <property name="securityProfile" value="metaiop"/>
-                            <property name="sslSecurityProfile" value="pkix"/>
-                            <property name="sslHostnameVerification" value="default"/>
-                            <property name="signMetadata" value="false"/>
-                            <property name="signingKey" value="apollo"/>
-                            <property name="encryptionKey" value="apollo"/>
-                            <property name="requireArtifactResolveSigned" value="false"/>
-                            <property name="requireLogoutRequestSigned" value="false"/>
-                            <property name="requireLogoutResponseSigned" value="false"/>
-                            <property name="idpDiscoveryEnabled" value="true"/>
-                            <!--<property name="idpDiscoveryURL" value="https://openfeedportal.com:443/sso/saml/discovery"/>-->
-                            <!--<property name="idpDiscoveryResponseURL" value="https://openfeedportal.com:443/sso/saml/login?disco=true"/>-->
-                            <property name="idpDiscoveryURL" value="https://openfeedportal.com:443/sso/saml/discovery/alias/sp1"/>
-                            <property name="idpDiscoveryResponseURL" value="https://openfeedportal.com:443/sso/saml/login/alias/sp1?disco=true"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-                    <constructor-arg>
-                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-                            <constructor-arg>
-                                <bean class="java.util.Timer"/>
-                            </constructor-arg>
-                            <constructor-arg>
-                                <bean class="org.opensaml.util.resource.ClasspathResource">
-                                    <constructor-arg value="/metadata/SAMLIdP-00D15000000EJ7H.xml"/>
-                                </bean>
-                            </constructor-arg>
-                            <property name="parserPool" ref="parserPool"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                            <property name="local" value="true"/>
-                            <!--<property name="alias" value="sp2"/>-->
-                            <property name="securityProfile" value="metaiop"/>
-                            <property name="sslSecurityProfile" value="pkix"/>
-                            <property name="sslHostnameVerification" value="default"/>
-                            <property name="signMetadata" value="false"/>
-                            <property name="signingKey" value="apollo"/>
-                            <property name="encryptionKey" value="apollo"/>
-                            <property name="requireArtifactResolveSigned" value="false"/>
-                            <property name="requireLogoutRequestSigned" value="false"/>
-                            <property name="requireLogoutResponseSigned" value="false"/>
-                            <property name="idpDiscoveryEnabled" value="true"/>
-                            <property name="idpDiscoveryURL" value="https://openfeedportal.com:443/sso/saml/discovery/alias/sp2"/>
-                            <property name="idpDiscoveryResponseURL" value="https://openfeedportal.com:443/sso/saml/login/alias/sp2?disco=true"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-                <bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-                    <constructor-arg>
-                        <bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-                            <constructor-arg>
-                                <bean class="java.util.Timer"/>
-                            </constructor-arg>
-                            <constructor-arg>
-                                <bean class="org.opensaml.util.resource.ClasspathResource">
-                                    <constructor-arg value="/metadata/ssocircle-idp.xml"/>
-                                </bean>
-                            </constructor-arg>
-                            <property name="parserPool" ref="parserPool"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                            <property name="local" value="true"/>
-                            <!--<property name="alias" value="sp1"/>-->
-                            <property name="securityProfile" value="metaiop"/>
-                            <property name="sslSecurityProfile" value="pkix"/>
-                            <property name="sslHostnameVerification" value="default"/>
-                            <property name="signMetadata" value="false"/>
-                            <property name="signingKey" value="apollo"/>
-                            <property name="encryptionKey" value="apollo"/>
-                            <property name="requireArtifactResolveSigned" value="false"/>
-                            <property name="requireLogoutRequestSigned" value="false"/>
-                            <property name="requireLogoutResponseSigned" value="false"/>
-                            <property name="idpDiscoveryEnabled" value="true"/>
-                            <!--<property name="idpDiscoveryURL" value="https://openfeedportal.com:443/sso/saml/discovery"/>-->
-                            <!--<property name="idpDiscoveryResponseURL" value="https://openfeedportal.com:443/sso/saml/login?disco=true"/>-->
-                            <!--<property name="idpDiscoveryURL" value="https://openfeedportal.com:443/sso/saml/discovery/alias/sp1"/>-->
-                            <!--<property name="idpDiscoveryResponseURL" value="https://openfeedportal.com:443/sso/saml/login/alias/sp1?disco=true"/>-->
-                            <property name="idpDiscoveryURL" value="https://openfeedportal.com:443/sso/saml/discovery/alias/sp3"/>
-                            <property name="idpDiscoveryResponseURL" value="https://openfeedportal.com:443/sso/saml/login/alias/sp3?disco=true"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-
-                <!-- Example of HTTP metadata without Extended Metadata -->
-                <!--<bean class="org.opensaml.saml2.metadata.provider.HTTPMetadataProvider">-->
-                    <!-- URL containing the metadata -->
-                    <!--<constructor-arg>
-                        <value type="java.lang.String">https://openfeed-dev-ed.my.salesforce.com/.well-known/samlidp.xml</value>-->
-                        <!--<value type="java.lang.String">http://idp.ssocircle.com/idp-meta.xml</value>-->
-                    <!--</constructor-arg>-->
-                    <!-- Timeout for metadata loading in ms -->
-                    <!--<constructor-arg>
-                        <value type="int">15000</value>
+                        <value type="java.io.File">/usr/local/metadata/idp.xml</value>
                     </constructor-arg>
                     <property name="parserPool" ref="parserPool"/>
-                </bean>-->
+                </bean>
+                -->
             </list>
         </constructor-arg>
         <!-- OPTIONAL used when one of the metadata files contains information about this service provider -->
@@ -375,8 +360,7 @@
     </bean>
 
     <!-- SAML Authentication Provider responsible for validating of received SAML messages -->
-    <!-- <bean id="samlAuthenticationProvider" class="org.springframework.security.saml.SAMLAuthenticationProvider">-->
-    <bean id="samlAuthenticationProvider" class="org.springframework.security.saml.web.SAMLAuthenticationProvider">
+    <bean id="samlAuthenticationProvider" class="org.springframework.security.saml.SAMLAuthenticationProvider">
         <!-- OPTIONAL property: can be used to store/load user data after login -->
         <!--
         <property name="userDetails" ref="bean" />
@@ -496,14 +480,20 @@
     <!-- Initialization of the velocity engine -->
     <bean id="velocityEngine" class="org.springframework.security.saml.util.VelocityFactory" factory-method="getEngine"/>
 
-    <!-- XML parser pool needed for OpenSAML parsing -->
-    <bean id="parserPool" class="org.opensaml.xml.parse.StaticBasicParserPool" init-method="initialize">
-        <property name="builderFeatures">
-            <map>
-                <entry key="http://apache.org/xml/features/dom/defer-node-expansion" value="false"/>
-            </map>
-        </property>
-    </bean>
+    <!-- 
+        XML parser pool needed for OpenSAML parsing
+
+        WARNING: If customizing a ParserPool implementation See https://shibboleth.net/community/advisories/secadv_20131213.txt
+                 Specifically the following should be explicitly set to avoid exploits:
+                 
+                 1) set pool property 'expandEntityReferences' to 'false'
+                 2) set feature 'javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING' to true
+                 3) set feature 'http://apache.org/xml/features/disallow-doctype-decl' to true. This is a Xerces-specific feature,
+                    including derivatives such as the internal JAXP implementations supplied with the Oracle and OpenJDK JREs. For
+                    other JAXP implementations, consult the documentation for the implementation for guidance on how to achieve a
+                    similar configuration.
+    -->
+    <bean id="parserPool" class="org.opensaml.xml.parse.StaticBasicParserPool" init-method="initialize"/>
 
     <bean id="parserPoolHolder" class="org.springframework.security.saml.parser.ParserPoolHolder"/>
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" ID="dev.nutresa_hyb_sp2" entityID="dev.nutresa:hyb:sp2">
+	<md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+		<md:Extensions>
+			<idpdisco:DiscoveryResponse xmlns:idpdisco="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Location="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/login/alias/sp2?disco=true"/>
+		</md:Extensions>
+		<md:KeyDescriptor use="signing">
+			<ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+				<ds:X509Data>
+					<ds:X509Certificate>MIIC+DCCAeCgAwIBAgIEWjP1GzANBgkqhkiG9w0BAQsFADA+MR0wGwYDVQQLDBRjb20uc2Vydmlj
+aW9zbnV0cmVzYTEdMBsGA1UEAwwUY29tLnNlcnZpY2lvc251dHJlc2EwHhcNMTcxMjE1MTYxNTIz
+WhcNMTgxMjE1MTYxNTIzWjA+MR0wGwYDVQQLDBRjb20uc2VydmljaW9zbnV0cmVzYTEdMBsGA1UE
+AwwUY29tLnNlcnZpY2lvc251dHJlc2EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDv
+x4CyB38TJSvZKrXpSO1qmG+v+f46yrrRlJBBy26xHicYc6bfuTYM0swPodlOq539VBoeR1LIqu43
+rqy19i/k9uk7US/jbvS/Bs15IbRfnCLODqmpDQYlIEbAfnlfUs8CJSu4UrHcuqEq1Zm8NrZecJ8Y
+GMdIJ5EWizWLWVMUr/4LcvUSqKpsGnGjtjfgXKh6ocTNlBeldjHq3QOCc9hpkAIJ+QrZrXfoV5B+
+Et6Ja7hsxAtxSHdxqpuVQ4WC6YCiKE8vX+OAy/+nhDSWD956PFvCio4+uk3tq0P2vwui+2qj5n74
+hBo0+pfe9NFOjv66s00qVYtniP/aamz1OU4XAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAFbh0T9n
+KuGdabuAzwGnUODKx2Q8xOLWga+eKR6o/hkJ7E93B8bpjOyMMz/hP4nIERhXZ9I9ftbSp3KorpEL
+BjwBpH4+xij92VPwO0n9uueWK2TsUl4X9SWrmz6/qrZDmBl8oUpmBVfDcVTTbrPhfa2NU5bBioAZ
+gT6Af5tKQV3xJIOgr/zYIFv/O7d6eQ/Mbaud9GndTGjpPB1uRV7Upyh6JuprYos9Kf3gT/vqAkAY
+V+cMVDSJ+oS6sG0CjHDSs3K9ZByK1lSSuyzgo2OC+iflEGgohUujvoR8Zac3dZbaHvI/SGZimOlc
+cQBqXP8bogfji1tzq50ktbx9MB1oEWo=</ds:X509Certificate>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</md:KeyDescriptor>
+		<md:KeyDescriptor use="encryption">
+			<ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+				<ds:X509Data>
+					<ds:X509Certificate>MIIC+DCCAeCgAwIBAgIEWjP1GzANBgkqhkiG9w0BAQsFADA+MR0wGwYDVQQLDBRjb20uc2Vydmlj
+aW9zbnV0cmVzYTEdMBsGA1UEAwwUY29tLnNlcnZpY2lvc251dHJlc2EwHhcNMTcxMjE1MTYxNTIz
+WhcNMTgxMjE1MTYxNTIzWjA+MR0wGwYDVQQLDBRjb20uc2VydmljaW9zbnV0cmVzYTEdMBsGA1UE
+AwwUY29tLnNlcnZpY2lvc251dHJlc2EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDv
+x4CyB38TJSvZKrXpSO1qmG+v+f46yrrRlJBBy26xHicYc6bfuTYM0swPodlOq539VBoeR1LIqu43
+rqy19i/k9uk7US/jbvS/Bs15IbRfnCLODqmpDQYlIEbAfnlfUs8CJSu4UrHcuqEq1Zm8NrZecJ8Y
+GMdIJ5EWizWLWVMUr/4LcvUSqKpsGnGjtjfgXKh6ocTNlBeldjHq3QOCc9hpkAIJ+QrZrXfoV5B+
+Et6Ja7hsxAtxSHdxqpuVQ4WC6YCiKE8vX+OAy/+nhDSWD956PFvCio4+uk3tq0P2vwui+2qj5n74
+hBo0+pfe9NFOjv66s00qVYtniP/aamz1OU4XAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAFbh0T9n
+KuGdabuAzwGnUODKx2Q8xOLWga+eKR6o/hkJ7E93B8bpjOyMMz/hP4nIERhXZ9I9ftbSp3KorpEL
+BjwBpH4+xij92VPwO0n9uueWK2TsUl4X9SWrmz6/qrZDmBl8oUpmBVfDcVTTbrPhfa2NU5bBioAZ
+gT6Af5tKQV3xJIOgr/zYIFv/O7d6eQ/Mbaud9GndTGjpPB1uRV7Upyh6JuprYos9Kf3gT/vqAkAY
+V+cMVDSJ+oS6sG0CjHDSs3K9ZByK1lSSuyzgo2OC+iflEGgohUujvoR8Zac3dZbaHvI/SGZimOlc
+cQBqXP8bogfji1tzq50ktbx9MB1oEWo=</ds:X509Certificate>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</md:KeyDescriptor>
+		<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/SingleLogout/alias/sp2"/>
+		<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/SingleLogout/alias/sp2"/>
+		<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+		<md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/SSO/alias/sp2" index="0" isDefault="true"/>
+		<md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="https://dev.serviciosnutresa.com:443/samlsinglesignon/saml/SSO/alias/sp2" index="1"/>
+	</md:SPSSODescriptor>
+</md:EntityDescriptor>
